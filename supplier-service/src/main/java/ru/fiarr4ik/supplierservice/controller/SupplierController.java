@@ -1,10 +1,12 @@
 package ru.fiarr4ik.supplierservice.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +27,11 @@ import java.util.List;
 
 /**
  * REST-контроллер для работы с поставщиками.
+ * Предоставляет API для управления поставщиками, включая создание, чтение, обновление и удаление.
  */
 @RestController
 @RequestMapping("/api/suppliers")
+@Tag(name = "Поставщики", description = "API для управления поставщиками")
 public class SupplierController {
 
     private final SupplierService supplierService;
@@ -40,12 +44,20 @@ public class SupplierController {
     /**
      * Получить список всех поставщиков.
      *
-     * @return Список {@link SupplierDto}
+     * @return Список поставщиков
      */
     @GetMapping
-    @Operation(summary = "Получить всех поставщиков", description = "Возвращает список всех поставщиков")
+    @Operation(
+            summary = "Получить всех поставщиков",
+            description = "Возвращает список всех поставщиков в системе"
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список поставщиков успешно получен")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Список поставщиков успешно получен",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class))
+            )
     })
     public ResponseEntity<List<SupplierDto>> getAllSuppliers() {
         List<SupplierDto> suppliers = supplierService.getAllSuppliers();
@@ -56,15 +68,30 @@ public class SupplierController {
      * Получить поставщика по ID.
      *
      * @param id Идентификатор поставщика
-     * @return {@link SupplierDto}
+     * @return DTO поставщика
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Получить поставщика по ID", description = "Возвращает одного поставщика по его ID")
+    @Operation(
+            summary = "Получить поставщика по ID",
+            description = "Возвращает информацию о поставщике по его уникальному идентификатору"
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Поставщик найден"),
-            @ApiResponse(responseCode = "404", description = "Поставщик не найден", content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Поставщик найден",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SupplierDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Поставщик не найден",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))
+            )
     })
-    public ResponseEntity<SupplierDto> getSupplierById(@PathVariable Long id) {
+    public ResponseEntity<SupplierDto> getSupplierById(
+            @Parameter(description = "ID поставщика", required = true)
+            @PathVariable Long id) {
         SupplierDto supplier = supplierService.getSupplierById(id);
         return ResponseEntity.ok(supplier);
     }
@@ -73,17 +100,31 @@ public class SupplierController {
      * Создать нового поставщика.
      *
      * @param supplierDto Данные нового поставщика
-     * @return Созданный {@link SupplierDto} с кодом 201
+     * @return Созданный поставщик
      */
     @PostMapping
-    @Operation(summary = "Создать нового поставщика", description = "Создает нового поставщика")
+    @Operation(
+            summary = "Создать нового поставщика",
+            description = "Создает нового поставщика с указанными данными. " +
+                    "Email и телефон должны быть уникальными."
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Поставщик успешно создан"),
-            @ApiResponse(responseCode = "400", description = "Ошибки валидации или дублирования данных",
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Поставщик успешно создан",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDto.class)))
+                            schema = @Schema(implementation = SupplierDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибки валидации или дублирования данных",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))
+            )
     })
-    public ResponseEntity<SupplierDto> createSupplier(@Valid @RequestBody SupplierDto supplierDto) {
+    public ResponseEntity<SupplierDto> createSupplier(
+            @Parameter(description = "Данные нового поставщика", required = true)
+            @Valid @RequestBody SupplierDto supplierDto) {
         SupplierDto created = supplierService.createSupplier(supplierDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -93,18 +134,39 @@ public class SupplierController {
      *
      * @param id Идентификатор поставщика
      * @param supplierDto Новые данные поставщика
-     * @return Обновлённый {@link SupplierDto}
+     * @return Обновленный поставщик
      */
     @PutMapping("/{id}")
-    @Operation(summary = "Обновить данные поставщика", description = "Обновляет информацию о поставщике по его ID")
+    @Operation(
+            summary = "Обновить данные поставщика",
+            description = "Обновляет информацию о существующем поставщике. " +
+                    "Email и телефон должны быть уникальными."
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Поставщик успешно обновлен"),
-            @ApiResponse(responseCode = "400", description = "Ошибки валидации или дублирования данных",
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Поставщик успешно обновлен",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDto.class))),
-            @ApiResponse(responseCode = "404", description = "Поставщик не найден", content = @Content)
+                            schema = @Schema(implementation = SupplierDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибки валидации или дублирования данных",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Поставщик не найден",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))
+            )
     })
-    public ResponseEntity<SupplierDto> updateSupplier(@PathVariable Long id, @Valid @RequestBody SupplierDto supplierDto) {
+    public ResponseEntity<SupplierDto> updateSupplier(
+            @Parameter(description = "ID поставщика", required = true)
+            @PathVariable Long id,
+            @Parameter(description = "Новые данные поставщика", required = true)
+            @Valid @RequestBody SupplierDto supplierDto) {
         SupplierDto updated = supplierService.updateSupplier(id, supplierDto);
         return ResponseEntity.ok(updated);
     }
@@ -115,12 +177,25 @@ public class SupplierController {
      * @param id Идентификатор поставщика
      */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Удалить поставщика по ID", description = "Удаляет поставщика по указанному ID")
+    @Operation(
+            summary = "Удалить поставщика",
+            description = "Удаляет поставщика по его идентификатору"
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Поставщик успешно удален"),
-            @ApiResponse(responseCode = "404", description = "Поставщик не найден", content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Поставщик успешно удален"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Поставщик не найден",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDto.class))
+            )
     })
-    public ResponseEntity<Void> deleteSupplier(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSupplier(
+            @Parameter(description = "ID поставщика", required = true)
+            @PathVariable Long id) {
         supplierService.deleteSupplier(id);
         return ResponseEntity.ok().build();
     }

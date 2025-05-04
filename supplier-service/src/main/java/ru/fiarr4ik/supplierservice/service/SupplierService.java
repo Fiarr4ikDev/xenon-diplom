@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class SupplierService {
 
     private final SupplierRepository supplierRepository;
-    private final ru.fiarr4ik.supplierservice.service.SupplierMappingService supplierMappingService;
+    private final SupplierMappingService supplierMappingService;
 
     @Autowired
     public SupplierService(SupplierRepository supplierRepository, SupplierMappingService supplierMappingService) {
@@ -32,7 +32,7 @@ public class SupplierService {
      * @throws UniqueConstraintViolationException если телефон или email уже заняты
      */
     public SupplierDto createSupplier(SupplierDto supplierDto) {
-        validateUniqueFields(supplierDto); // Проверяем уникальность
+        validateUniqueFields(supplierDto);
         Supplier supplier = supplierMappingService.toEntity(supplierDto);
         Supplier savedSupplier = supplierRepository.save(supplier);
         return supplierMappingService.toDto(savedSupplier);
@@ -60,8 +60,7 @@ public class SupplierService {
      * @return список DTO поставщиков
      */
     public List<SupplierDto> getAllSuppliers() {
-        List<Supplier> suppliers = supplierRepository.findAll();
-        return suppliers.stream()
+        return supplierRepository.findAll().stream()
                 .map(supplierMappingService::toDto)
                 .collect(Collectors.toList());
     }
@@ -76,7 +75,7 @@ public class SupplierService {
      * @throws UniqueConstraintViolationException если телефон или email уже заняты
      */
     public SupplierDto updateSupplier(Long id, SupplierDto supplierDto) {
-        validateUniqueFields(supplierDto); // Проверяем уникальность
+        validateUniqueFields(supplierDto);
 
         Optional<Supplier> supplier = supplierRepository.findBySupplierId(id);
         if (supplier.isPresent()) {
