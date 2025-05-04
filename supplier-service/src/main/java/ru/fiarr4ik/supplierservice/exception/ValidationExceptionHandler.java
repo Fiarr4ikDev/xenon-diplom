@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.fiarr4ik.supplierservice.dto.ValidationErrorDto;
+import ru.fiarr4ik.supplierservice.dto.ErrorResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +20,15 @@ public class ValidationExceptionHandler {
      * @return ResponseEntity с сообщением об ошибках в формате JSON
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorDto> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<String> errorMessages = ex.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(error -> error.getDefaultMessage())
                 .collect(Collectors.toList());
 
-        ValidationErrorDto errorResponse = new ValidationErrorDto(errorMessages);
+        ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessages);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
 }
