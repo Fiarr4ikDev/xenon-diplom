@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -78,7 +79,7 @@ public class SupplierController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Поставщик успешно создан")
     })
-    public ResponseEntity<SupplierDto> createSupplier(@RequestBody SupplierDto supplierDto) {
+    public ResponseEntity<SupplierDto> createSupplier(@RequestBody @Valid SupplierDto supplierDto) {
         SupplierDto created = supplierService.createSupplier(supplierDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -96,7 +97,7 @@ public class SupplierController {
             @ApiResponse(responseCode = "200", description = "Поставщик успешно обновлен"),
             @ApiResponse(responseCode = "404", description = "Поставщик не найден", content = @Content)
     })
-    public ResponseEntity<SupplierDto> updateSupplier(@PathVariable Long supplierId, @RequestBody SupplierDto supplierDto) {
+    public ResponseEntity<SupplierDto> updateSupplier(@PathVariable Long supplierId, @RequestBody @Valid SupplierDto supplierDto) {
         SupplierDto updated = supplierService.updateSupplier(supplierId, supplierDto);
         return ResponseEntity.ok(updated);
     }
@@ -117,4 +118,5 @@ public class SupplierController {
         SupplierDto deleted = supplierService.deleteSupplier(supplierId);
         return ResponseEntity.ok(deleted);
     }
+
 }
