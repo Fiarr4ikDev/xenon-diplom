@@ -6,26 +6,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * DTO for {@link ru.fiarr4ik.supplierservice.entity.Supplier}
+ * DTO для передачи данных о поставщике между слоями приложения.
  */
 @Getter
 @Setter
-@Schema(description = "DTO сущности поставщика")
+@Schema(description = "DTO модели поставщика")
 public class SupplierDto {
 
-    @JsonProperty
+    @JsonProperty("name")
+    @Schema(description = "Название компании поставщика", example = "ООО Поставка")
     private String name;
 
-    @JsonProperty
+    @JsonProperty("contactPerson")
+    @Schema(description = "ФИО контактного лица", example = "Иванов Иван Иванович")
     private String contactPerson;
 
-    @JsonProperty
+    @JsonProperty("phone")
+    @Schema(description = "Контактный телефон", example = "+7 999 123-45-67")
     private String phone;
 
-    @JsonProperty
+    @JsonProperty("email")
+    @Schema(description = "Электронная почта поставщика", example = "supplier@example.com")
     private String email;
 
-    @JsonProperty
+    @JsonProperty("address")
+    @Schema(description = "Адрес поставщика", example = "ул. Ленина, д. 10, г. Москва")
     private String address;
 
 }

@@ -62,13 +62,14 @@ public class SupplierService {
         }
     }
 
-    public void deleteSupplier(Long id) {
+    public SupplierDto deleteSupplier(Long id) {
         Optional<Supplier> supplier = supplierRepository.findBySupplierId(id);
         if (supplier.isPresent()) {
             supplierRepository.delete(supplier.get());
         } else {
             throw new SupplierNotFoundException("Поставщик c id " + id + " не найден");
         }
+        return null;
     }
 
 }
