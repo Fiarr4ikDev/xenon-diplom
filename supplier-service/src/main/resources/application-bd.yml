@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name:
+    url: jdbc:postgresql://localhost:5432/xenon_diplom
+    username: postgres
+    password: pass
+  jpa:
+    generate-ddl: true
+    show-sql: true

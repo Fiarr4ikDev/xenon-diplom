@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: supplier-service
+
+server:
+  port: 8081
