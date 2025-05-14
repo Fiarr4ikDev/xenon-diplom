@@ -19,6 +19,7 @@
     <modules>
         <module>supplier-service</module>
         <module>category-service</module>
+        <module>part-service</module>
     </modules>
 
     <dependencyManagement>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,9 +30,9 @@ public class PartDto {
     @Schema(description = "Идентификатор поставщика запчасти", example = "205")
     private Long supplierId;
 
-    @NotBlank(message = "Цена за единицу запчасти не может быть пустой")
+    @NotNull(message = "Цена за единицу запчасти обязательна")
     @DecimalMin(value = "0.0", inclusive = false, message = "Цена должна быть больше нуля")
     @JsonProperty("unitPrice")
     @Schema(description = "Цена за одну единицу запчасти", example = "1250.99")
-    private double unitPrice;
+    private Double unitPrice;
 }
