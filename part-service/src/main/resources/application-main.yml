@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: parts-service
+
+server:
+  port: 8083
