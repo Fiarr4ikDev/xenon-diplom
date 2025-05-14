@@ -1,0 +1,26 @@
+package ru.fiarr4ik.partservice.service;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.fiarr4ik.partservice.dto.PartDto;
+import ru.fiarr4ik.partservice.entity.Part;
+
+@Service
+public class PartMapperService {
+
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public PartMapperService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    public Part toModel(PartDto partDto) {
+        return modelMapper.map(partDto, Part.class);
+    }
+
+    public PartDto toDto(Part part) {
+        return modelMapper.map(part, PartDto.class);
+    }
+}
