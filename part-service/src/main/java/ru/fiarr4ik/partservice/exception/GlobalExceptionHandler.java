@@ -29,4 +29,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponseDto(errors), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(SupplierNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleSupplierNotFound(SupplierNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponseDto(List.of(ex.getMessage())));
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCategoryNotFound(CategoryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponseDto(List.of(ex.getMessage())));
+    }
+
+
 }

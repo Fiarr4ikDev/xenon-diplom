@@ -23,11 +23,11 @@ public class PartDto {
 
     @JsonProperty("categoryId")
     @Schema(description = "Идентификатор категории, к которой относится запчасть", example = "101")
-    private int categoryId;
+    private Long categoryId;
 
     @JsonProperty("supplierId")
     @Schema(description = "Идентификатор поставщика запчасти", example = "205")
-    private int supplierId;
+    private Long supplierId;
 
     @NotBlank(message = "Цена за единицу запчасти не может быть пустой")
     @DecimalMin(value = "0.0", inclusive = false, message = "Цена должна быть больше нуля")

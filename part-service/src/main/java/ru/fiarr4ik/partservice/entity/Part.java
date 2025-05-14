@@ -27,10 +27,10 @@ public class Part {
     private String description;
 
     @Column(name = "category_id")
-    private int categoryId;
+    private Long categoryId;
 
     @Column(name = "supplier_id")
-    private int supplierId;
+    private Long supplierId;
 
     @Column(name = "unit_price")
     private double unitPrice;
