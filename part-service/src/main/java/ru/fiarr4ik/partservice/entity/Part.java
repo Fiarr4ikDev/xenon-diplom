@@ -18,7 +18,7 @@ public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "part_id")
-    private Long PartId;
+    private Long partId;
 
     @Column(name = "name")
     private String name;

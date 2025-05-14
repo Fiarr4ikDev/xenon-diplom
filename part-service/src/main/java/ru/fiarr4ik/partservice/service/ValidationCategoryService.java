@@ -26,7 +26,7 @@ public class ValidationCategoryService {
         } catch (HttpClientErrorException.NotFound e) {
             throw new SupplierNotFoundException(categoryId);
         } catch (RestClientException e) {
-            throw new RuntimeException("Ошибка при проверке поставщика", e);
+            throw new RuntimeException("Ошибка при проверке категории", e);
         }
     }
 }
