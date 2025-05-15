@@ -2,12 +2,13 @@ package ru.fiarr4ik.partservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import ru.fiarr4ik.partservice.dto.CategoryDto;
 import ru.fiarr4ik.partservice.exception.CategoryNotFoundException;
-import ru.fiarr4ik.partservice.exception.SupplierNotFoundException;
 
 @Service
 public class ValidationCategoryService {
@@ -29,6 +30,17 @@ public class ValidationCategoryService {
         } catch (RestClientException e) {
             throw new RuntimeException("Ошибка при проверке категории", e);
         }
+    }
+
+    public CategoryDto getCategoryById(Long categoryId) {
+        ResponseEntity<CategoryDto> response = restTemplate.getForEntity(
+                "http://localhost:8082/api/categories/" + categoryId, CategoryDto.class);
+
+        if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+            throw new RuntimeException("Category not found");
+        }
+
+        return response.getBody();
     }
 }
 
