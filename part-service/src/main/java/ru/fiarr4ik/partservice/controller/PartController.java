@@ -5,8 +5,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +41,23 @@ public class PartController {
     public ResponseEntity<List<PartResponseDto>> getParts() {
         List<PartResponseDto> list = partService.getAllParts();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PartResponseDto> getPart(@PathVariable Long id) {
+        PartResponseDto partResponseDto = partService.getPartById(id);
+        return new ResponseEntity<>(partResponseDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PartDto> updatePart(@PathVariable Long id, @Valid @RequestBody PartDto partDto) {
+        PartDto updated = partService.updatePart(id, partDto);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PartDto> deletePart(@PathVariable Long id) {
+        partService.deletePart(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
