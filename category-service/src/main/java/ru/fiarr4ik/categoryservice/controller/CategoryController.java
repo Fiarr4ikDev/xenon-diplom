@@ -82,7 +82,7 @@ public class CategoryController {
     })
     public ResponseEntity<CategoryDto> getSupplierById(
             @Parameter(description = "ID категории", required = true)
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
         CategoryDto category = categoryService.getCategoryById(id);
         return ResponseEntity.ok(category);
     }
@@ -153,7 +153,7 @@ public class CategoryController {
     })
     public ResponseEntity<CategoryDto> updateCategory(
             @Parameter(description = "ID категории", required = true)
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @Parameter(description = "Новые данные категории", required = true)
             @Valid @RequestBody CategoryDto categoryDto) {
         CategoryDto updated = categoryService.updateCategory(id, categoryDto);
@@ -184,7 +184,7 @@ public class CategoryController {
     })
     public ResponseEntity<Void> deleteCategory(
             @Parameter(description = "ID категории", required = true)
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok().build();
     }

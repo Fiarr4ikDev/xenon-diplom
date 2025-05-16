@@ -1,7 +1,6 @@
 package ru.fiarr4ik.partservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -16,12 +15,12 @@ public class ValidateSupplierService {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public ValidateSupplierService(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public ValidateSupplierService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public void validateSupplierExists(Long supplierId) {
-        String supplierServiceUrl = "http://localhost:8081/api/suppliers/{supplierId}";
+        String supplierServiceUrl = "http://supplier-service:8081/api/suppliers/{supplierId}";
 
         try {
             restTemplate.getForEntity(supplierServiceUrl, Void.class, supplierId);
@@ -34,7 +33,7 @@ public class ValidateSupplierService {
 
     public SupplierDto getSupplierById(Long supplierId) {
         ResponseEntity<SupplierDto> response = restTemplate.getForEntity(
-                "http://localhost:8081/api/suppliers/" + supplierId, SupplierDto.class);
+                "http://supplier-service:8081/api/suppliers/" + supplierId, SupplierDto.class);
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw new RuntimeException("Supplier not found");

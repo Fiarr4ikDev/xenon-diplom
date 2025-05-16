@@ -1,7 +1,6 @@
 package ru.fiarr4ik.partservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -16,12 +15,12 @@ public class ValidationCategoryService {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public ValidationCategoryService(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public ValidationCategoryService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public void validateCategoryExists(Long categoryId) {
-        String supplierServiceUrl = "http://localhost:8082/api/categories/{categoryId}";
+        String supplierServiceUrl = "http://category-service:8082/api/categories/{categoryId}";
 
         try {
             restTemplate.getForEntity(supplierServiceUrl, Void.class, categoryId);
@@ -34,7 +33,7 @@ public class ValidationCategoryService {
 
     public CategoryDto getCategoryById(Long categoryId) {
         ResponseEntity<CategoryDto> response = restTemplate.getForEntity(
-                "http://localhost:8082/api/categories/" + categoryId, CategoryDto.class);
+                "http://category-service:8082/api/categories/" + categoryId, CategoryDto.class);
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw new RuntimeException("Category not found");

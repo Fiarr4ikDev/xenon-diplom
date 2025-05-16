@@ -44,19 +44,19 @@ public class PartController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PartResponseDto> getPart(@PathVariable Long id) {
+    public ResponseEntity<PartResponseDto> getPart(@PathVariable(name = "id") Long id) {
         PartResponseDto partResponseDto = partService.getPartById(id);
         return new ResponseEntity<>(partResponseDto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PartDto> updatePart(@PathVariable Long id, @Valid @RequestBody PartDto partDto) {
+    public ResponseEntity<PartDto> updatePart(@PathVariable(name = "id") Long id, @Valid @RequestBody PartDto partDto) {
         PartDto updated = partService.updatePart(id, partDto);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PartDto> deletePart(@PathVariable Long id) {
+    public ResponseEntity<PartDto> deletePart(@PathVariable(name = "id") Long id) {
         partService.deletePart(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

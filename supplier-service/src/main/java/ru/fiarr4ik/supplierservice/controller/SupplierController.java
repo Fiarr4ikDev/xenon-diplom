@@ -91,7 +91,7 @@ public class SupplierController {
     })
     public ResponseEntity<SupplierDto> getSupplierById(
             @Parameter(description = "ID поставщика", required = true)
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
         SupplierDto supplier = supplierService.getSupplierById(id);
         return ResponseEntity.ok(supplier);
     }
@@ -164,7 +164,7 @@ public class SupplierController {
     })
     public ResponseEntity<SupplierDto> updateSupplier(
             @Parameter(description = "ID поставщика", required = true)
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @Parameter(description = "Новые данные поставщика", required = true)
             @Valid @RequestBody SupplierDto supplierDto) {
         SupplierDto updated = supplierService.updateSupplier(id, supplierDto);
@@ -195,7 +195,7 @@ public class SupplierController {
     })
     public ResponseEntity<Void> deleteSupplier(
             @Parameter(description = "ID поставщика", required = true)
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
         supplierService.deleteSupplier(id);
         return ResponseEntity.ok().build();
     }
