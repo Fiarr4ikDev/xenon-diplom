@@ -12,6 +12,7 @@ import ru.fiarr4ik.partservice.repository.PartRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PartService {
@@ -39,7 +40,7 @@ public class PartService {
 
     public List<PartResponseDto> getAllParts() {
         List<Part> parts = partRepository.findAll();
-        return parts.stream().map(this::getPartResponseDto).toList();
+        return parts.stream().map(this::getPartResponseDto).collect(Collectors.toList());
     }
 
     public PartResponseDto getPartById(Long id) {
