@@ -60,4 +60,20 @@ public class PartController {
         partService.deletePart(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    /**
+     * Проверяет, существует ли хотя бы одна запчасть с указанной категорией.
+     *
+     * @param categoryId ID категории
+     * @return true, если такая запчасть есть
+     */
+    @GetMapping("/exists-by-category/{categoryId}")
+    public boolean existsByCategoryId(@PathVariable("categoryId") Long categoryId) {
+        return partService.existsByCategoryId(categoryId);
+    }
+
+    @GetMapping("/exists-by-supplier/{supplierId}")
+    public boolean existsBySupplierId(@PathVariable("supplierId") Long supplierId) {
+        return partService.existsBySupplierId(supplierId);
+    }
 }

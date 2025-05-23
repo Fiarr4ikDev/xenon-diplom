@@ -6,6 +6,7 @@ import ru.fiarr4ik.categoryservice.dto.CategoryDto;
 import ru.fiarr4ik.categoryservice.entity.Category;
 import ru.fiarr4ik.categoryservice.exception.CategoryNotFoundException;
 import ru.fiarr4ik.categoryservice.repository.CategoryRepository;
+import ru.fiarr4ik.categoryservice.rest.PartClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,13 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMappingService categoryMappingService;
+    private final PartClient partClient;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, CategoryMappingService categoryMappingService) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryMappingService categoryMappingService, PartClient partClient) {
         this.categoryRepository = categoryRepository;
         this.categoryMappingService = categoryMappingService;
+        this.partClient = partClient;
     }
 
     public CategoryDto createCategory(CategoryDto categoryDto) {
@@ -57,15 +60,22 @@ public class CategoryService {
         }
     }
 
+    /**
+     * Удаляет категорию, если она не используется ни в одной запчасти.
+     *
+     * @param id ID категории
+     */
     public void deleteCategory(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            categoryRepository.delete(category.get());
-        } else {
+
+        if (category.isEmpty()) {
             throw new CategoryNotFoundException();
         }
+
+        if (partClient.existsByCategory(id)) {
+            throw new IllegalStateException("Категория используется в запчастях и не может быть удалена");
+        }
+
+        categoryRepository.delete(category.get());
     }
-
-
-
 }

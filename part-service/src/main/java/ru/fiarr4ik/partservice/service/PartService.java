@@ -85,4 +85,25 @@ public class PartService {
         responseDto.setUnitPrice(part.getUnitPrice());
         return responseDto;
     }
+
+    /**
+     * Проверяет, существует ли хотя бы одна запчасть с указанной категорией.
+     *
+     * @param categoryId ID категории
+     * @return true, если такая запчасть есть
+     */
+    public boolean existsByCategoryId(Long categoryId) {
+        return partRepository.existsByCategoryId(categoryId);
+    }
+
+    /**
+     * Проверяет, существует ли хотя бы одна запчасть с указанным поставщиком.
+     *
+     * @param supplierId ID поставщика
+     * @return true, если такая запчасть есть
+     */
+    public boolean existsBySupplierId(Long supplierId) {
+        return partRepository.existsBySupplierId(supplierId);
+    }
+
 }
