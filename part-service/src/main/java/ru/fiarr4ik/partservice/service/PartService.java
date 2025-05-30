@@ -23,7 +23,10 @@ public class PartService {
     private final ValidationCategoryService validationCategoryService;
 
     @Autowired
-    public PartService(PartRepository partRepository, PartMapperService partMapperService, ValidateSupplierService validateSupplierService, ValidationCategoryService validationCategoryService) {
+    public PartService(PartRepository partRepository,
+                       PartMapperService partMapperService,
+                       ValidateSupplierService validateSupplierService,
+                       ValidationCategoryService validationCategoryService) {
         this.partRepository = partRepository;
         this.partMapperService = partMapperService;
         this.validateSupplierService = validateSupplierService;

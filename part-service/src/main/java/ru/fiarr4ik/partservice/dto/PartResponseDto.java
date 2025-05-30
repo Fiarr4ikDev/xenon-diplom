@@ -16,4 +16,5 @@ public class PartResponseDto {
     private SupplierDto supplier;
 
     private Double unitPrice;
+
 }

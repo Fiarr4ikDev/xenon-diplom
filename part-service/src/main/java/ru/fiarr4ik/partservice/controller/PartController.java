@@ -76,4 +76,5 @@ public class PartController {
     public boolean existsBySupplierId(@PathVariable("supplierId") Long supplierId) {
         return partService.existsBySupplierId(supplierId);
     }
+
 }

@@ -35,4 +35,5 @@ public class PartDto {
     @JsonProperty("unitPrice")
     @Schema(description = "Цена за одну единицу запчасти", example = "1250.99")
     private Double unitPrice;
+
 }

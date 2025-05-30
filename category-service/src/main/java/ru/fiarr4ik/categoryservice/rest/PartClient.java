@@ -15,4 +15,5 @@ public interface PartClient {
      */
     @GetMapping("/api/parts/exists-by-category/{categoryId}")
     boolean existsByCategory(@PathVariable("categoryId") Long categoryId);
+
 }

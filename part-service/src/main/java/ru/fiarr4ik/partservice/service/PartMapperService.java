@@ -35,4 +35,5 @@ public class PartMapperService {
     public PartDto toDto(Part part) {
         return modelMapper.map(part, PartDto.class);
     }
+
 }

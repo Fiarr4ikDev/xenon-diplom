@@ -41,5 +41,6 @@ public class ValidationCategoryService {
 
         return response.getBody();
     }
+
 }
 

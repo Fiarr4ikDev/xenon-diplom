@@ -34,4 +34,5 @@ public class Part {
 
     @Column(name = "unit_price")
     private double unitPrice;
+
 }

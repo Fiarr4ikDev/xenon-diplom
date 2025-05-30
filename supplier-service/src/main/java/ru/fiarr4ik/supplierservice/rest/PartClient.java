@@ -14,4 +14,5 @@ public interface PartClient {
      */
     @GetMapping("/api/parts/exists-by-supplier/{supplierId}")
     boolean existsBySupplierId(@PathVariable("supplierId") Long supplierId);
+
 }
