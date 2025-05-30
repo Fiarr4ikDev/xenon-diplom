@@ -23,6 +23,7 @@
         <module>category-service</module>
         <module>part-service</module>
         <module>eureka-server-service</module>
+        <module>inventory-service</module>
     </modules>
 
     <dependencyManagement>
