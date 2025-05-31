@@ -25,6 +25,7 @@
         <module>eureka-server-service</module>
         <module>inventory-service</module>
         <module>gateway-service</module>
+        <module>security-service</module>
     </modules>
 
     <dependencyManagement>
