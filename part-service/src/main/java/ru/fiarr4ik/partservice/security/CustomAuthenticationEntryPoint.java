@@ -1,4 +1,4 @@
-package ru.fiarr4ik.categoryservice.security;
+package ru.fiarr4ik.partservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package ru.fiarr4ik.categoryservice.security.model;
+package ru.fiarr4ik.inventoryservice.security.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

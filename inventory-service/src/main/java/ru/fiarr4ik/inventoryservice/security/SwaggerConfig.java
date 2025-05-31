@@ -1,4 +1,4 @@
-package ru.fiarr4ik.categoryservice.security;
+package ru.fiarr4ik.inventoryservice.security;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Category Service API")
-                        .description("API для управления категориями")
+                        .description("API для управления инвентарём")
                         .version("1.0"))
                 .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
                 .components(new Components()

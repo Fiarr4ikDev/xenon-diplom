@@ -1,8 +1,8 @@
-package ru.fiarr4ik.categoryservice.security.repository;
+package ru.fiarr4ik.supplierservice.security.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.fiarr4ik.categoryservice.security.model.User;
+import ru.fiarr4ik.supplierservice.security.model.User;
 
 import java.util.Optional;
 

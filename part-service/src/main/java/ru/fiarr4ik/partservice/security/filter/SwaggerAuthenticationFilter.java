@@ -1,4 +1,4 @@
-package ru.fiarr4ik.categoryservice.security.filter;
+package ru.fiarr4ik.partservice.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.fiarr4ik.categoryservice.security.service.CustomUserDetailsService;
+import ru.fiarr4ik.partservice.security.service.CustomUserDetailsService;
 
 import java.io.IOException;
 import java.util.Base64;
