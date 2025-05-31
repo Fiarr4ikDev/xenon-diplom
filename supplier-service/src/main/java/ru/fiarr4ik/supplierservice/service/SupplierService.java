@@ -7,6 +7,7 @@ import ru.fiarr4ik.supplierservice.entity.Supplier;
 import ru.fiarr4ik.supplierservice.exception.SupplierNotFoundException;
 import ru.fiarr4ik.supplierservice.exception.UniqueConstraintViolationException;
 import ru.fiarr4ik.supplierservice.repository.SupplierRepository;
+import ru.fiarr4ik.supplierservice.rest.PartClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,13 @@ public class SupplierService {
 
     private final SupplierRepository supplierRepository;
     private final SupplierMappingService supplierMappingService;
+    private final PartClient partClient;
 
     @Autowired
-    public SupplierService(SupplierRepository supplierRepository, SupplierMappingService supplierMappingService) {
+    public SupplierService(SupplierRepository supplierRepository, SupplierMappingService supplierMappingService, PartClient partClient) {
         this.supplierRepository = supplierRepository;
         this.supplierMappingService = supplierMappingService;
+        this.partClient = partClient;
     }
 
     /**
@@ -92,19 +95,17 @@ public class SupplierService {
         }
     }
 
-    /**
-     * Удаляет поставщика по его ID.
-     *
-     * @param id идентификатор поставщика
-     * @throws SupplierNotFoundException если поставщик не найден
-     */
-    public void deleteSupplier(Long id) {
-        Optional<Supplier> supplier = supplierRepository.findBySupplierId(id);
-        if (supplier.isPresent()) {
-            supplierRepository.delete(supplier.get());
-        } else {
-            throw new SupplierNotFoundException("Поставщик c id " + id + " не найден");
+    public void deleteSupplier(Long supplierId) {
+        if (!supplierRepository.existsById(supplierId)) {
+            throw new SupplierNotFoundException("Поставщик c id " + supplierId + " не найден");
         }
+
+        boolean hasParts = partClient.existsBySupplierId(supplierId);
+        if (hasParts) {
+            throw new IllegalStateException("Поставщик используется в запчастях и не может быть удалён");
+        }
+
+        supplierRepository.deleteById(supplierId);
     }
 
     /**

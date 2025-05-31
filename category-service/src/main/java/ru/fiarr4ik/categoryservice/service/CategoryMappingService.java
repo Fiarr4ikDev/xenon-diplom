@@ -23,4 +23,5 @@ public class CategoryMappingService {
     public Category toEntity(CategoryDto dto) {
         return modelMapper.map(dto, Category.class);
     }
+
 }

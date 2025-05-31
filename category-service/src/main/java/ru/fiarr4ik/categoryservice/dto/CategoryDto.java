@@ -22,4 +22,5 @@ public class CategoryDto {
     @JsonProperty("description")
     @Schema(description = "Описание категории")
     private String description;
+
 }

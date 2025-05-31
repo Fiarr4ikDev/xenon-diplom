@@ -1,19 +1,38 @@
-target/
-checkstyle
+#############################
+# Maven                     #
+#############################
+
+# Исключаем все target директории (результаты сборки)
+/target/
+
+# Но оставляем wrapper, если используется
 !.mvn/wrapper/maven-wrapper.jar
+
+# Не игнорируем вложенные target в src/main и src/test
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+
+#############################
+# IntelliJ IDEA             #
+#############################
+
+# Конфигурационные файлы IDE
+/.idea/modules.xml
+/.idea/jarRepositories.xml
+/.idea/compiler.xml
+/.idea/libraries/
+
+# Состояние проекта
 *.iws
 *.iml
 *.ipr
 
-### Eclipse ###
+
+#############################
+# Eclipse                   #
+#############################
+
 .apt_generated
 .classpath
 .factorypath
@@ -22,18 +41,40 @@ checkstyle
 .springBeans
 .sts4-cache
 
-### NetBeans ###
+
+#############################
+# NetBeans                  #
+#############################
+
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+/build/
+
+# Но не игнорируем build внутри src/main и src/test
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+
+#############################
+# VS Code                   #
+#############################
+
 .vscode/
 
-### Mac OS ###
+
+#############################
+# OS Specific               #
+#############################
+
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.swp
+*~
+.lock
+.gitattributes

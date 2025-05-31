@@ -29,4 +29,10 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(new ErrorResponseDto(errors), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getLocalizedMessage());
+    }
+
 }
