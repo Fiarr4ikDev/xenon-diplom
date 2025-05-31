@@ -48,7 +48,7 @@ public class PartService {
 
     public PartResponseDto getPartById(Long id) {
         Optional<Part> part = partRepository.findById(id);
-        return part.map(this::getPartResponseDto).orElse(null);
+        return part.map(this::getPartResponseDto).orElseThrow(PartNotFoundException::new);
     }
 
     public PartDto updatePart(Long id, PartDto partDto) {
