@@ -2,7 +2,8 @@ package ru.fiarr4ik.categoryservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.fiarr4ik.categoryservice.dto.CategoryDto;
+import ru.fiarr4ik.categoryservice.dto.CategoryRequestDto;
+import ru.fiarr4ik.categoryservice.dto.CategoryResponseDTO;
 import ru.fiarr4ik.categoryservice.entity.Category;
 import ru.fiarr4ik.categoryservice.exception.CategoryNotFoundException;
 import ru.fiarr4ik.categoryservice.repository.CategoryRepository;
@@ -26,13 +27,13 @@ public class CategoryService {
         this.partClient = partClient;
     }
 
-    public CategoryDto createCategory(CategoryDto categoryDto) {
-        Category category = categoryMappingService.toEntity(categoryDto);
+    public CategoryResponseDTO createCategory(CategoryRequestDto categoryRequestDto) {
+        Category category = categoryMappingService.toEntity(categoryRequestDto);
         Category savedCategory = categoryRepository.save(category);
         return categoryMappingService.toDto(savedCategory);
     }
 
-    public CategoryDto getCategoryById(Long id) {
+    public CategoryResponseDTO getCategoryById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isPresent()) {
             return categoryMappingService.toDto(category.get());
@@ -41,18 +42,18 @@ public class CategoryService {
         }
     }
 
-    public List<CategoryDto> getAllCategories() {
+    public List<CategoryResponseDTO> getAllCategories() {
         return categoryRepository.findAll().stream()
                 .map(categoryMappingService::toDto)
                 .collect(Collectors.toList());
     }
 
-    public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
+    public CategoryResponseDTO updateCategory(Long id, CategoryRequestDto categoryRequestDto) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isPresent()) {
             Category categoryToUpdate = category.get();
-            categoryToUpdate.setName(categoryDto.getName());
-            categoryToUpdate.setDescription(categoryDto.getDescription());
+            categoryToUpdate.setName(categoryRequestDto.getName());
+            categoryToUpdate.setDescription(categoryRequestDto.getDescription());
             Category savedCategory = categoryRepository.save(categoryToUpdate);
             return categoryMappingService.toDto(savedCategory);
         } else {

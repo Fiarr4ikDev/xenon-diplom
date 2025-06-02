@@ -26,6 +26,7 @@
         <module>inventory-service</module>
         <module>gateway-service</module>
         <module>security-service</module>
+        <module>ui-service</module>
     </modules>
 
     <dependencyManagement>

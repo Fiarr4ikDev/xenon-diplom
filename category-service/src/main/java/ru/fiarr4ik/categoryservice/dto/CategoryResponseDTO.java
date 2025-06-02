@@ -6,13 +6,13 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * DTO для передачи данных о категории между слоями приложения.
- */
 @Getter
 @Setter
 @Schema(description = "DTO модели категории с валидацией")
-public class CategoryDto {
+public class CategoryResponseDTO {
+
+    @JsonProperty("category_id")
+    private Long categoryId;
 
     @JsonProperty("name")
     @Schema(description = "Название категории", example = "Расходные материалы")

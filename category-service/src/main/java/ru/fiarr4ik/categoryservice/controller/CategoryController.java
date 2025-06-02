@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.fiarr4ik.categoryservice.dto.CategoryDto;
+import ru.fiarr4ik.categoryservice.dto.CategoryRequestDto;
+import ru.fiarr4ik.categoryservice.dto.CategoryResponseDTO;
 import ru.fiarr4ik.categoryservice.dto.ErrorResponseDto;
 import ru.fiarr4ik.categoryservice.service.CategoryService;
 
@@ -29,7 +29,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/categories")
 @Tag(name = "Категории", description = "API для управления категориями")
-@SecurityRequirement(name = "basicAuth")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -52,8 +51,8 @@ public class CategoryController {
                             schema = @Schema(implementation = List.class))
             )
     })
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        List<CategoryDto> categories = categoryService.getAllCategories();
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
+        List<CategoryResponseDTO> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
@@ -73,7 +72,7 @@ public class CategoryController {
                     responseCode = "200",
                     description = "Категория найдена",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CategoryDto.class))
+                            schema = @Schema(implementation = CategoryRequestDto.class))
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -82,17 +81,17 @@ public class CategoryController {
                             schema = @Schema(implementation = ErrorResponseDto.class))
             )
     })
-    public ResponseEntity<CategoryDto> getSupplierById(
+    public ResponseEntity<CategoryResponseDTO> getSupplierById(
             @Parameter(description = "ID категории", required = true)
             @PathVariable(name = "id") Long id) {
-        CategoryDto category = categoryService.getCategoryById(id);
+        CategoryResponseDTO category = categoryService.getCategoryById(id);
         return ResponseEntity.ok(category);
     }
 
     /**
      * Создать новую категорию.
      *
-     * @param categoryDto Данные новой категории
+     * @param categoryRequestDto Данные новой категории
      * @return Созданный поставщик
      */
     @PostMapping
@@ -105,7 +104,7 @@ public class CategoryController {
                     responseCode = "201",
                     description = "Категория успешно создана",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CategoryDto.class))
+                            schema = @Schema(implementation = CategoryRequestDto.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -114,10 +113,10 @@ public class CategoryController {
                             schema = @Schema(implementation = ErrorResponseDto.class))
             )
     })
-    public ResponseEntity<CategoryDto> createSupplier(
+    public ResponseEntity<CategoryResponseDTO> createSupplier(
             @Parameter(description = "Данные новой категории", required = true)
-            @Valid @RequestBody CategoryDto categoryDto) {
-        CategoryDto created = categoryService.createCategory(categoryDto);
+            @Valid @RequestBody CategoryRequestDto categoryRequestDto) {
+        CategoryResponseDTO created = categoryService.createCategory(categoryRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -125,7 +124,7 @@ public class CategoryController {
      * Обновить данные категории.
      *
      * @param id Идентификатор категории
-     * @param categoryDto Новые данные категории
+     * @param categoryRequestDto Новые данные категории
      * @return Обновленная категория
      */
     @PutMapping("/{id}")
@@ -138,7 +137,7 @@ public class CategoryController {
                     responseCode = "200",
                     description = "Категория успешно обновлена",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CategoryDto.class))
+                            schema = @Schema(implementation = CategoryRequestDto.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -153,12 +152,12 @@ public class CategoryController {
                             schema = @Schema(implementation = ErrorResponseDto.class))
             )
     })
-    public ResponseEntity<CategoryDto> updateCategory(
+    public ResponseEntity<CategoryResponseDTO> updateCategory(
             @Parameter(description = "ID категории", required = true)
             @PathVariable(name = "id") Long id,
             @Parameter(description = "Новые данные категории", required = true)
-            @Valid @RequestBody CategoryDto categoryDto) {
-        CategoryDto updated = categoryService.updateCategory(id, categoryDto);
+            @Valid @RequestBody CategoryRequestDto categoryRequestDto) {
+        CategoryResponseDTO updated = categoryService.updateCategory(id, categoryRequestDto);
         return ResponseEntity.ok(updated);
     }
 
